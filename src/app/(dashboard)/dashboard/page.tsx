@@ -1,8 +1,11 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import {
+  Bus,
   BusFront,
+  CarFront,
   LayoutDashboard,
   LibraryBig,
+  PhoneCall,
   SearchIcon,
   Truck,
 } from "lucide-react";
@@ -75,7 +78,7 @@ export default function Dashboard() {
         {/* This will house the main area */}
         <div>
           {/* Search bar div */}
-          <div className="mt-6 bg-white rounded-md shadow-md flex flex-row justify-between items-end py-6 px-4">
+          <div className="mt-6 bg-white rounded-md shadow-md flex flex-row justify-between items-end py-6 px-4 ring-1 ring-zinc-200">
             <div className="flex flex-row gap-2 w-[70%]">
               <Input type="text" placeholder="Search for a destination" />
               <Button>
@@ -90,8 +93,57 @@ export default function Dashboard() {
 
           {/* Current trip and most visited location trucks */}
           <div className=" grid grid-cols-2 gap-5 mt-10">
-
-            <div className="bg-white p-10 shadow-md rounded-md ring-1 ring-zinc-100"></div>
+            <div className="bg-white px-10 py-6 shadow-md rounded-md ring-1 ring-zinc-200">
+              <div className="flex flex-row justify-between items-end mb-8">
+                <h3 className="text-2xl font-medium ">Current trip</h3>
+                <div className="py-1 px-3 bg-zinc-100 rounded-full flex flex-row items-center gap-2">
+                  <p className="text-sm text-zinc-600">1 day in transit</p>
+                  <Bus className="text-zinc-500 w-6 h-6" />
+                </div>
+              </div>
+              {/* Parcel details */}
+              <div className="grid grid-cols-2 gap-8">
+                {/* Picture and name */}
+                <div>
+                  <div className="w-20 h-20 rounded-full ring ring-zinc-200 overflow-hidden mb-4">
+                    <Image
+                      src={userPic}
+                      alt="Driver's picture"
+                      width={80}
+                      height={80}
+                    />
+                  </div>
+                  <div className="flex flex-row gap-1">
+                    <CarFront />
+                    <p>
+                      <span className="text-blue-500 hover:underline cursor-pointer">
+                        Yaw Kwaku
+                      </span>{" "}
+                      is your driver
+                    </p>
+                  </div>
+                </div>
+                {/* Driver details */}
+                <div className="flex flex-col space-y-4">
+                  <div className="flex flex-row gap-3 items-center">
+                    <PhoneCall className="w-5 h-5" />
+                    <p>0123456789</p>
+                  </div>
+                  <div className="flex flex-row gap-3 items-center">
+                    <PhoneCall className="w-5 h-5" />
+                    <p>0123456789</p>
+                  </div>
+                  <div className="flex flex-row gap-3 items-center">
+                    <PhoneCall className="w-5 h-5" />
+                    <p>0123456789</p>
+                  </div>
+                  <div className="flex flex-row gap-3 items-center">
+                    <PhoneCall className="w-5 h-5" />
+                    <p>0123456789</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </MaxWidthWrapper>
