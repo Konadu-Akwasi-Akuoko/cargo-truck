@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 
 export default function Dashboard() {
   return (
-    <main>
+    <main className="flex flex-row">
       {/* This div will house the sidebar */}
-      <div className="w-3/12 bg-white h-screen rounded-r-lg outline outline-zinc-300">
+      <div className="w-[340px] bg-white h-screen rounded-r-lg outline outline-zinc-300">
         <div className="p-10 w-full h-[80%]">
           {/* Logo */}
           <div className="flex flex-row w-full pb-8 ">

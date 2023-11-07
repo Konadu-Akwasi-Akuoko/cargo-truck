@@ -1,15 +1,25 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
-import { BusFront, LayoutDashboard, LibraryBig, Truck } from "lucide-react";
+import {
+  BusFront,
+  LayoutDashboard,
+  LibraryBig,
+  SearchIcon,
+  Truck,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import userPic from "@/assets/userPic.png";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { format } from "date-fns";
 
 export default function Dashboard() {
+  const date = new Date();
+  const formattedDate = format(date, "MMMM d, yyyy");
   return (
-    <main>
+    <main className="flex flex-row">
       {/* This div will house the sidebar */}
-      <div className="w-3/12 bg-white h-screen rounded-r-lg outline outline-zinc-300">
+      <div className="w-[340px] bg-white h-screen rounded-r-lg outline outline-zinc-300">
         <div className="p-10 w-full h-[80%]">
           {/* Logo */}
           <div className="flex flex-row w-full pb-8 ">
@@ -63,7 +73,27 @@ export default function Dashboard() {
       </div>
       <MaxWidthWrapper>
         {/* This will house the main area */}
-        <div></div>
+        <div>
+          {/* Search bar div */}
+          <div className="mt-6 bg-white rounded-md shadow-md flex flex-row justify-between items-end py-6 px-4">
+            <div className="flex flex-row gap-2 w-[70%]">
+              <Input type="text" placeholder="Search for a destination" />
+              <Button>
+                <SearchIcon className="mr-2 w-4 h-4" />
+                Search
+              </Button>
+            </div>
+            <div className="text-zinc-500">
+              <p>{formattedDate}</p>
+            </div>
+          </div>
+
+          {/* Current trip and most visited location trucks */}
+          <div className=" grid grid-cols-2 gap-5 mt-10">
+
+            <div className="bg-white p-10 shadow-md rounded-md ring-1 ring-zinc-100"></div>
+          </div>
+        </div>
       </MaxWidthWrapper>
     </main>
   );
