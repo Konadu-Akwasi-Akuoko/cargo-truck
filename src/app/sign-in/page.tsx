@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Truck } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -22,6 +23,8 @@ const signInFormSchema = z.object({
 });
 
 export default function SignIn() {
+  const router = useRouter();
+
   const signInForm = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
@@ -32,6 +35,7 @@ export default function SignIn() {
 
   const signInFormOnSubmit = (values: z.infer<typeof signInFormSchema>) => {
     console.log(values);
+    router.push("/dashboard");
   };
 
   return (
@@ -111,7 +115,9 @@ export default function SignIn() {
           <p className="text-xs">
             New to CargoTruck?{" "}
             <span>
-              <Link href={"/sign-up"} className="text-primary hover:underline">Sign Up</Link>
+              <Link href={"/sign-up"} className="text-primary hover:underline">
+                Sign Up
+              </Link>
             </span>
           </p>
         </div>
