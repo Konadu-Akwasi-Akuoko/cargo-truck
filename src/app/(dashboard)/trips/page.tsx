@@ -4,13 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import userPic from "@/assets/userPic.png";
 import { Button } from "@/components/ui/button";
+import { SearchBar } from "@/components/SearchBar";
+import { AllTripsYouCanJoin } from "@/components/AllTripsYouCanJoin";
 
 export default function Dashboard() {
   return (
     <main className="flex flex-row">
       {/* This div will house the sidebar */}
       <div className="w-[340px] bg-white h-screen rounded-r-lg outline outline-zinc-300">
-        <div className="p-10 w-full h-[80%]">
+        <div className="p-10 fixed top-0 left-0 h-[80%]">
           {/* Logo */}
           <div className="flex flex-row w-full pb-8 ">
             <h2 className="text-2xl font-medium">CargoTruck</h2>
@@ -62,8 +64,10 @@ export default function Dashboard() {
         </div>
       </div>
       <MaxWidthWrapper>
-        {/* This will house the main area */}
-        <div></div>
+        <div>
+          <SearchBar />
+          <AllTripsYouCanJoin />
+        </div>
       </MaxWidthWrapper>
     </main>
   );

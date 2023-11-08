@@ -1,31 +1,41 @@
+import userPic from "@/assets/userPic.png";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
+import { SearchBar } from "@/components/SearchBar";
+import { TripsYouCanJoin } from "@/components/TripsYouCanJoin";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 import {
+  BadgeCent,
+  Box,
   Bus,
   BusFront,
   Car,
-  CarFront,
   LayoutDashboard,
   LibraryBig,
+  Map,
+  MapPin,
+  MapPinned,
+  MoveRight,
   PhoneCall,
   SearchIcon,
   Timer,
   Truck,
+  UserCircle,
+  Users,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import userPic from "@/assets/userPic.png";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { format } from "date-fns";
 
 export default function Dashboard() {
   const date = new Date();
   const formattedDate = format(date, "MMMM d, yyyy");
   return (
-    <main className="flex flex-row">
+    <main className="flex flex-row ">
       {/* This div will house the sidebar */}
-      <div className="w-[340px] bg-white h-screen rounded-r-lg outline outline-zinc-300">
-        <div className="p-10 w-full h-[80%]">
+      <div className="w-[340px] bg-white rounded-r-lg outline outline-zinc-300 relative">
+        <div className="p-10 fixed top-0 left-0 h-[80%]">
           {/* Logo */}
           <div className="flex flex-row w-full pb-8 ">
             <h2 className="text-2xl font-medium">CargoTruck</h2>
@@ -77,25 +87,13 @@ export default function Dashboard() {
         </div>
       </div>
       <MaxWidthWrapper>
-        {/* This will house the main area */}
         <div>
-          {/* Search bar div */}
-          <div className="mt-6 bg-white rounded-md shadow-md flex flex-row justify-between items-end py-6 px-4 ring-1 ring-zinc-200">
-            <div className="flex flex-row gap-2 w-[70%]">
-              <Input type="text" placeholder="Search for a destination" />
-              <Button>
-                <SearchIcon className="mr-2 w-4 h-4" />
-                Search
-              </Button>
-            </div>
-            <div className="text-zinc-500">
-              <p>{formattedDate}</p>
-            </div>
-          </div>
+          <SearchBar />
 
           {/* Current trip and most visited location trucks */}
-          <div className=" grid grid-cols-2 gap-5 mt-10">
-            <div className="bg-white px-10 py-6 shadow-md rounded-md ring-1 ring-zinc-200">
+          <div className=" grid grid-cols-2 gap-40 mt-10">
+            {/* Current trip */}
+            <div className="bg-white px-10 py-6 shadow-md rounded-md ring-1 ring-zinc-200 cursor-pointer transition hover:shadow-lg">
               <div className="flex flex-row justify-between items-end mb-8">
                 <h3 className="text-2xl font-medium ">Current trip</h3>
                 <div className="py-1 px-3 bg-zinc-100 rounded-full flex flex-row items-center gap-2">
@@ -104,10 +102,10 @@ export default function Dashboard() {
                 </div>
               </div>
               {/* Parcel details */}
-              <div className="grid grid-cols-2">
+              <div className="flex flex-row justify-between">
                 {/* Picture and name */}
                 <div>
-                  <div className="w-20 h-20 rounded-full ring ring-zinc-200 overflow-hidden mb-4">
+                  <div className="w-20 h-20 mx-auto rounded-full ring ring-zinc-200 overflow-hidden mb-4">
                     <Image
                       src={userPic}
                       alt="Driver's picture"
@@ -115,14 +113,9 @@ export default function Dashboard() {
                       height={80}
                     />
                   </div>
-                  <div className="flex flex-row gap-1">
-                    <CarFront />
-                    <p>
-                      <span className="text-blue-500 hover:underline cursor-pointer">
-                        Yaw Kwaku
-                      </span>{" "}
-                      is your driver
-                    </p>
+                  <div className="flex flex-row gap-1 justify-center items-center hover:text-blue-500  hover:underline">
+                    <UserCircle />
+                    <p className=" text-xl cursor-pointer">Yaw Kwaku</p>
                   </div>
                 </div>
                 {/* Driver details */}
@@ -136,13 +129,56 @@ export default function Dashboard() {
                     <p>AK-5452-17</p>
                   </div>
                   <div className="flex flex-row gap-3 items-center">
-                    <Timer className="w-5 h-5" />
-                    <p>24 hours ETA</p>
+                    <Map className="w-5 h-5" />
+                    <p>From Kumasi</p>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Most visited place */}
+            <div className="bg-white px-10 py-6 shadow-md rounded-md ring-1 ring-zinc-200">
+              <div className="flex flex-row justify-between items-end mb-8">
+                <div className="flex flex-row gap-1 items-center">
+                  <MapPinned className="w-6 h-6" />
+                  <h3 className="text-2xl font-medium ">Book a trip</h3>
+                </div>
+                <Button
+                  variant={"outline"}
+                  size={"sm"}
+                  className="hover:bg-blue-50 items-center"
+                >
+                  See more
+                </Button>
+              </div>
+              {/* Most visited location details */}
+              <div className="flex flex-col gap-4">
+                <Button variant={"ghost"} className="ring-[1px] ring-border">
+                  <div className="flex flex-row items-center justify-between w-full">
+                    <p className="text-base font-normal">Kumasi</p>
+                    <MoveRight className="text-blue-500" />
+                    <p className="text-base font-normal">Accra</p>
+                  </div>
+                </Button>
+                <Button variant={"ghost"} className="ring-[1px] ring-border">
+                  <div className="flex flex-row items-center justify-between w-full">
+                    <p className="text-base font-normal">Sekondi</p>
+                    <MoveRight className="text-blue-500" />
+                    <p className="text-base font-normal">Accra</p>
+                  </div>
+                </Button>
+                <Button variant={"ghost"} className="ring-[1px] ring-border">
+                  <div className="flex flex-row items-center justify-between w-full">
+                    <p className="text-base font-normal">Sunyani</p>
+                    <MoveRight className="text-blue-500" />
+                    <p className="text-base font-normal">Accra</p>
+                  </div>
+                </Button>
+              </div>
+            </div>
           </div>
+
+          <TripsYouCanJoin />
         </div>
       </MaxWidthWrapper>
     </main>

@@ -10,7 +10,7 @@ export default function Dashboard() {
     <main className="flex flex-row">
       {/* This div will house the sidebar */}
       <div className="w-[340px] bg-white h-screen rounded-r-lg outline outline-zinc-300">
-        <div className="p-10 w-full h-[80%]">
+        <div className="p-10 fixed top-0 left-0 h-[80%]">
           {/* Logo */}
           <div className="flex flex-row w-full pb-8 ">
             <h2 className="text-2xl font-medium">CargoTruck</h2>
@@ -54,7 +54,7 @@ export default function Dashboard() {
                 />
               </div>
               <p>Emily Johnson</p>
-              
+
               <Button variant={"ghost"} className="mt-2 ring-1 ring-zinc-100">
                 <Link href={"/sign-in"}>Sign Out</Link>
               </Button>
