@@ -2,11 +2,13 @@ import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import {
   Bus,
   BusFront,
+  Car,
   CarFront,
   LayoutDashboard,
   LibraryBig,
   PhoneCall,
   SearchIcon,
+  Timer,
   Truck,
 } from "lucide-react";
 import Image from "next/image";
@@ -102,7 +104,7 @@ export default function Dashboard() {
                 </div>
               </div>
               {/* Parcel details */}
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-2">
                 {/* Picture and name */}
                 <div>
                   <div className="w-20 h-20 rounded-full ring ring-zinc-200 overflow-hidden mb-4">
@@ -124,22 +126,18 @@ export default function Dashboard() {
                   </div>
                 </div>
                 {/* Driver details */}
-                <div className="flex flex-col space-y-4">
+                <div className="flex flex-col justify-between w-fit">
                   <div className="flex flex-row gap-3 items-center">
                     <PhoneCall className="w-5 h-5" />
                     <p>0123456789</p>
                   </div>
                   <div className="flex flex-row gap-3 items-center">
-                    <PhoneCall className="w-5 h-5" />
-                    <p>0123456789</p>
+                    <Car className="w-5 h-5" />
+                    <p>AK-5452-17</p>
                   </div>
                   <div className="flex flex-row gap-3 items-center">
-                    <PhoneCall className="w-5 h-5" />
-                    <p>0123456789</p>
-                  </div>
-                  <div className="flex flex-row gap-3 items-center">
-                    <PhoneCall className="w-5 h-5" />
-                    <p>0123456789</p>
+                    <Timer className="w-5 h-5" />
+                    <p>24 hours ETA</p>
                   </div>
                 </div>
               </div>
