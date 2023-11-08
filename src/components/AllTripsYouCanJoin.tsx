@@ -9,13 +9,6 @@ export function AllTripsYouCanJoin() {
       <div className="w-full bg-white px-10 py-6 shadow-md rounded-md ring-1 ring-zinc-200 mt-10 mb-10">
         <div className="mb-6 flex flex-row justify-between items-end">
           <h3 className="text-2xl font-medium ">Trips you can join</h3>
-          <Button
-            variant={"outline"}
-            size={"sm"}
-            className="hover:bg-blue-50 items-center"
-          >
-            See more
-          </Button>
         </div>
         {/* Headers */}
         <div className="py-2 px-2 border-y flex flex-row justify-between items-center">

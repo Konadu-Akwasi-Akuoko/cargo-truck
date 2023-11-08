@@ -17,23 +17,36 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-const signInFormSchema = z.object({
-  email: z.string(),
-  password: z.string(),
-});
+const signInFormSchema = z
+  .object({
+    email: z.string(),
+    userName: z.string(),
+    password: z
+      .string()
+      .min(5, { message: "Password must contain at least 5 character(s)" }),
+    confirmPassword: z
+      .string()
+      .min(5, { message: "Password must contain at least 5 character(s)" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords must match",
+    path: ["confirmPassword"],
+  });
 
-export default function SignIn() {
+export default function SignUp() {
   const router = useRouter();
 
-  const signInForm = useForm<z.infer<typeof signInFormSchema>>({
+  const signUpForm = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
       email: "",
+      userName: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  const signInFormOnSubmit = (values: z.infer<typeof signInFormSchema>) => {
+  const signUpFormOnSubmit = (values: z.infer<typeof signInFormSchema>) => {
     console.log(values);
     router.push("/dashboard");
   };
@@ -60,17 +73,17 @@ export default function SignIn() {
         </div>
 
         <div className="w-[90%] md:w-fit mx-auto bg-white py-6 md:py-6 md:px-14 ring-[0.5px] ring-border  rounded-md shadow-lg">
-          <Form {...signInForm}>
+          <Form {...signUpForm}>
             <form
-              onSubmit={signInForm.handleSubmit(signInFormOnSubmit)}
+              onSubmit={signUpForm.handleSubmit(signUpFormOnSubmit)}
               className="space-y-6"
             >
               <div>
-                <h1 className="text-3xl font-medium py-4">Sign In</h1>
-                <p>Welcome back! Sign in to your account below.</p>
+                <h1 className="text-3xl font-medium py-4">Sign Up</h1>
+                <p>Hello there! Create your account below.</p>
               </div>
               <FormField
-                control={signInForm.control}
+                control={signUpForm.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
@@ -88,11 +101,27 @@ export default function SignIn() {
                 )}
               />
               <FormField
-                control={signInForm.control}
+                control={signUpForm.control}
+                name="userName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-medium">Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="user_Name" {...field} type="text" />
+                    </FormControl>
+                    <FormDescription>Create a new username</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={signUpForm.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-medium">Password</FormLabel>
+                    <FormLabel className="font-medium">
+                      Create Password
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="yoUr@passWoRD"
@@ -100,7 +129,27 @@ export default function SignIn() {
                         type="password"
                       />
                     </FormControl>
-                    <FormDescription>Enter your password</FormDescription>
+                    <FormDescription>Create a strong password</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={signUpForm.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-medium">
+                      Confirm your password
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="yoUr@passWoRD"
+                        {...field}
+                        type="password"
+                      />
+                    </FormControl>
+                    <FormDescription>Enter your password again</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -110,12 +159,12 @@ export default function SignIn() {
           </Form>
         </div>
 
-        <div className="flex flex-row mt-6 w-fit mx-auto">
+        <div className="flex flex-row mt-6 w-fit mx-auto mb-10">
           <p className="text-xs">
-            New to CargoTruck?{" "}
+            Have an account on CargoTruck?{" "}
             <span>
-              <Link href={"/sign-up"} className="text-primary hover:underline">
-                Sign Up
+              <Link href={"/sign-in"} className="text-primary hover:underline">
+                Sign In
               </Link>
             </span>
           </p>
