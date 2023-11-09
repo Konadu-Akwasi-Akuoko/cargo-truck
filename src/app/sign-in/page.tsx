@@ -1,4 +1,5 @@
 "use client";
+import { rootApi } from "@/api";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -33,9 +34,36 @@ export default function SignIn() {
     },
   });
 
-  const signInFormOnSubmit = (values: z.infer<typeof signInFormSchema>) => {
-    console.log(values);
-    router.push("/dashboard");
+  const signInFormOnSubmit = async (
+    values: z.infer<typeof signInFormSchema>
+  ) => {
+    try {
+      const fetchSignUp = await fetch(`${rootApi}/login/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+        }),
+      });
+
+      const result = await fetchSignUp.json();
+      console.log(result);
+
+      if (result.password && result.email) {
+        router.push("/dashboard");
+      }
+      // return await fetchSignUp.json();
+    } catch (error) {
+      console.error(error);
+      // toast({
+      //   title: "Authentication Failed",
+      //   description:
+      //     "Your username or email already exits, change it and try again",
+      // });
+    }
   };
 
   return (

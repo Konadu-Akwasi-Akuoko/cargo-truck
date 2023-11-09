@@ -1,3 +1,5 @@
+"use client"
+import { rootApi } from "@/api";
 import userPic from "@/assets/userPic.png";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { SearchBar } from "@/components/SearchBar";
@@ -7,21 +9,42 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import {
   Bus,
-  BusFront,
   Car,
-  LayoutDashboard,
-  LibraryBig,
   Map,
   MapPinned,
   MoveRight,
   PhoneCall,
-  Truck,
-  UserCircle,
+  UserCircle
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Dashboard() {
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchUserData = await fetch(`${rootApi}/user/`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const result = await fetchUserData.json();
+        console.log(result);
+
+        // Handle the fetched data here
+      } catch (error) {
+        console.error(error);
+        // Handle the error here
+      }
+    };
+
+    fetchData();
+  }, []);
+  
+  
   const date = new Date();
   const formattedDate = format(date, "MMMM d, yyyy");
   return (

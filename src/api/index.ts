@@ -1,4 +1,4 @@
-const rootApi = "https://cargolink.pythonanywhere.com/api";
+export const rootApi = "https://cargolink.pythonanywhere.com/api";
 
 export interface signUpParameters {
   email: string;

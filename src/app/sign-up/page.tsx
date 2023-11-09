@@ -1,4 +1,5 @@
 "use client";
+import { rootApi } from "@/api";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+// import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Truck } from "lucide-react";
 import Link from "next/link";
@@ -17,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import {useQuery} from "@tanstack/react-query"
+// import {useQuery} from "@tanstack/react-query"
 
 const signInFormSchema = z
   .object({
@@ -37,6 +39,7 @@ const signInFormSchema = z
 
 export default function SignUp() {
   const router = useRouter();
+  // const { toast } = useToast();
 
   // const query = useQuery()
 
@@ -50,9 +53,37 @@ export default function SignUp() {
     },
   });
 
-  const signUpFormOnSubmit = (values: z.infer<typeof signInFormSchema>) => {
-    console.log(values);
-    router.push("/dashboard");
+  const signUpFormOnSubmit = async (
+    values: z.infer<typeof signInFormSchema>
+  ) => {
+    try {
+      const fetchSignUp = await fetch(`${rootApi}/register/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: values.userName,
+          email: values.email,
+          password: values.password,
+        }),
+      });
+
+      const result = await fetchSignUp.json();
+      console.log(result);
+
+      if (result.password && result.email && result.username) {
+        router.push("/sign-in");
+      }
+      // return await fetchSignUp.json();
+    } catch (error) {
+      console.error(error);
+      // toast({
+      //   title: "Authentication Failed",
+      //   description:
+      //     "Your username or email already exits, change it and try again",
+      // });
+    }
   };
 
   return (
