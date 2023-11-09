@@ -76,22 +76,54 @@ const sizes = [
   },
 ];
 
-const bookingFormSchema = z.object({
-  shippingFrom: z.string({
-    required_error: "Please select where you are shipping from",
-  }),
-  shippingTo: z.string({
-    required_error: "Please select where you are shipping to",
-  }),
-  sizeCategory: z
-    .string({
-      // required_error: "Please select a size category",
-    })
-    .optional(),
-  sizeLength: z.number({}).optional(),
-  sizeWidth: z.number({}).optional(),
-  sizeHeight: z.number({}).optional(),
-});
+const bookingFormSchema = z
+  .object({
+    shippingFrom: z.string({
+      required_error: "Please select where you are shipping from",
+    }),
+    shippingTo: z.string({
+      required_error: "Please select where you are shipping to",
+    }),
+    sizeCategory: z.string().optional(),
+    sizeLength: z.number().optional(),
+    sizeWidth: z.number().optional(),
+    sizeHeight: z.number().optional(),
+  })
+  .refine(
+    (data) => {
+      // If sizeCategory is provided, sizeLength, sizeWidth, and sizeHeight must not be provided
+      if (
+        data.sizeCategory &&
+        (data.sizeLength || data.sizeWidth || data.sizeHeight)
+      ) {
+        return false;
+      }
+
+      // If sizeLength, sizeWidth, or sizeHeight is provided, sizeCategory must not be provided
+      if (
+        (data.sizeLength || data.sizeWidth || data.sizeHeight) &&
+        data.sizeCategory
+      ) {
+        return false;
+      }
+
+      // If none of the size fields are provided, that's also an error
+      if (
+        !data.sizeCategory &&
+        !data.sizeLength &&
+        !data.sizeWidth &&
+        !data.sizeHeight
+      ) {
+        return false;
+      }
+
+      return true;
+    },
+    {
+      message:
+        "Please provide either a size category or dimensions (length, width, height), but not both.",
+    }
+  );
 
 export default function Dashboard() {
   const [isShippingFromOpen, setIsShippingFromOpen] = useState(false);
@@ -467,7 +499,7 @@ export default function Dashboard() {
                             </div>
                           )}
                         </div>
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit">Calculate</Button>
                       </form>
                     </Form>
                   </div>
@@ -475,7 +507,23 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="col-span-1">World</div>
+            {/* Price estimator */}
+
+            <div className="col-span-1 rounded-md overflow-hidden ring-1 ring-zinc-200 shadow-md h-fit">
+              <div className="w-full bg-primary h-36 flex flex-col justify-center items-center text-white gap-y-2">
+                <p className="w-fit text-xl font-medium">
+                  Estimated Total Cost
+                </p>
+                <p className="w-fit font-medium">GHGH&#8373;80.00</p>
+              </div>
+              <div className="bg-white h-64 flex flex-col justify-center items-center gap-y-4 p-4">
+                <p className=" text-lg font-medium">
+                  Below are included in the quote above
+                </p>
+                <p className="font-medium text-zinc-500">Weight: 12kg</p>
+                <p className="font-medium text-zinc-500">Distance: 13km</p>
+              </div>
+            </div>
           </div>
         </div>
       </MaxWidthWrapper>
