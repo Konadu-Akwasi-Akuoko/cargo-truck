@@ -76,54 +76,21 @@ const sizes = [
   },
 ];
 
-const bookingFormSchema = z
-  .object({
-    shippingFrom: z.string({
-      required_error: "Please select where you are shipping from",
-    }),
-    shippingTo: z.string({
-      required_error: "Please select where you are shipping to",
-    }),
-    sizeCategory: z.string().optional(),
-    sizeLength: z.number().optional(),
-    sizeWidth: z.number().optional(),
-    sizeHeight: z.number().optional(),
-  })
-  .refine(
-    (data) => {
-      // If sizeCategory is provided, sizeLength, sizeWidth, and sizeHeight must not be provided
-      if (
-        data.sizeCategory &&
-        (data.sizeLength || data.sizeWidth || data.sizeHeight)
-      ) {
-        return false;
-      }
-
-      // If sizeLength, sizeWidth, or sizeHeight is provided, sizeCategory must not be provided
-      if (
-        (data.sizeLength || data.sizeWidth || data.sizeHeight) &&
-        data.sizeCategory
-      ) {
-        return false;
-      }
-
-      // If none of the size fields are provided, that's also an error
-      if (
-        !data.sizeCategory &&
-        !data.sizeLength &&
-        !data.sizeWidth &&
-        !data.sizeHeight
-      ) {
-        return false;
-      }
-
-      return true;
-    },
-    {
-      message:
-        "Please provide either a size category or dimensions (length, width, height), but not both.",
-    }
-  );
+const bookingFormSchema = z.object({
+  fullName: z.string(),
+  phoneNumber: z.string(),
+  ghanaCardNumber: z.string(),
+  shippingFrom: z.string({
+    required_error: "Please select where you are shipping from",
+  }),
+  shippingTo: z.string({
+    required_error: "Please select where you are shipping to",
+  }),
+  sizeCategory: z.string().optional(),
+  sizeLength: z.number().optional(),
+  sizeWidth: z.number().optional(),
+  sizeHeight: z.number().optional(),
+});
 
 export default function Dashboard() {
   const [isShippingFromOpen, setIsShippingFromOpen] = useState(false);
@@ -137,6 +104,9 @@ export default function Dashboard() {
       sizeHeight: 0,
       sizeLength: 0,
       sizeWidth: 0,
+      fullName: "",
+      phoneNumber: "",
+      ghanaCardNumber: "",
     },
   });
 
@@ -179,6 +149,68 @@ export default function Dashboard() {
                         )}
                         className="space-y-6 mt-6"
                       >
+                        <FormField
+                          control={bookATripForm.control}
+                          name="fullName"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Full name</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Your Full Name"
+                                  {...field}
+                                  type="text"
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                Your full name goes here
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={bookATripForm.control}
+                          name="phoneNumber"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Phone Number</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="0123456789"
+                                  {...field}
+                                  type="text"
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                Type your phone number here
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={bookATripForm.control}
+                          name="ghanaCardNumber"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Ghana Card</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="GH000000001"
+                                  {...field}
+                                  type="text"
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                Type the ID on you Ghana Card here
+                              </FormDescription>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
                         <div className="grid grid-cols-2 gap-6">
                           <FormField
                             control={bookATripForm.control}
@@ -514,7 +546,7 @@ export default function Dashboard() {
                 <p className="w-fit text-xl font-medium">
                   Estimated Total Cost
                 </p>
-                <p className="w-fit font-medium">GHGH&#8373;80.00</p>
+                <p className="w-fit font-medium">GH&#8373;80.00</p>
               </div>
               <div className="bg-white h-64 flex flex-col justify-center items-center gap-y-4 p-4">
                 <p className=" text-lg font-medium">
@@ -522,6 +554,7 @@ export default function Dashboard() {
                 </p>
                 <p className="font-medium text-zinc-500">Weight: 12kg</p>
                 <p className="font-medium text-zinc-500">Distance: 13km</p>
+                <Button variant={"default"}>Book Trip</Button>
               </div>
             </div>
           </div>

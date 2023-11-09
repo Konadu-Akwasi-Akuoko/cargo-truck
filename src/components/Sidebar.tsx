@@ -52,10 +52,19 @@ export function Sidebar({ url }: SideBarProps) {
             <div className="w-16 h-16 rounded-full mx-auto ring ring-zinc-200 overflow-hidden mb-3">
               <Image src={userPic} alt="user picture" width={64} height={64} />
             </div>
-            <p>Emily Johnson</p>
+            <p>Emily Johnson</p>    
+
+            <div className="flex flex-col gap-2">
+             <Button variant={"secondary"} className="mt-2 ring-1 ring-zinc-100">
+              <Link href={"/driver/register"}>Become a Driver</Link>
+            </Button>
             <Button variant={"ghost"} className="mt-2 ring-1 ring-zinc-100">
               <Link href={"/sign-in"}>Sign Out</Link>
             </Button>
+
+            </div>
+ 
+      
           </div>
         </div>
       </div>

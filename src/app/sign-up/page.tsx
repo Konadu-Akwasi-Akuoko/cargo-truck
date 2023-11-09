@@ -17,16 +17,18 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import {useQuery} from "@tanstack/react-query"
+
 const signInFormSchema = z
   .object({
     email: z.string(),
     userName: z.string(),
     password: z
       .string()
-      .min(5, { message: "Password must contain at least 5 character(s)" }),
+      .min(8, { message: "Password must contain at least 5 character(s)" }),
     confirmPassword: z
       .string()
-      .min(5, { message: "Password must contain at least 5 character(s)" }),
+      .min(8, { message: "Password must contain at least 5 character(s)" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords must match",
@@ -35,6 +37,8 @@ const signInFormSchema = z
 
 export default function SignUp() {
   const router = useRouter();
+
+  // const query = useQuery()
 
   const signUpForm = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
@@ -52,7 +56,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center place-content-center relative isolate">
+    <div className="flex min-h-screen items-center justify-center place-content-center relative isolate">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -67,7 +71,7 @@ export default function SignUp() {
       </div>
 
       <div>
-        <div className="flex flex-row mb-14 w-fit mx-auto">
+        <div className="flex flex-row mb-14 w-fit mx-auto mt-20">
           <h2 className="text-2xl font-medium">CargoTruck</h2>
           <Truck className="w-8 h-8 text-primary" />
         </div>
