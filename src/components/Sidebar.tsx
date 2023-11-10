@@ -4,42 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import userPic from "@/assets/userPic.png";
-import { useRouter } from "next/navigation";
-import { rootApi } from "@/api";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 interface SideBarProps {
   url: "dashboard" | "booking" | "trips";
 }
 
 export function Sidebar({ url }: SideBarProps) {
-  const router = useRouter();
-
-  const logOutOnSubmit = async () => {
-    try {
-      const fetchSignUp = await fetch(`${rootApi}/logout/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const result = await fetchSignUp.status;
-      console.log(result);
-
-      if (result === 200) {
-        router.push("/sign-in");
-      }
-      // return await fetchSignUp.json();
-    } catch (error) {
-      console.error(error);
-      // toast({
-      //   title: "Authentication Failed",
-      //   description:
-      //     "Your username or email already exits, change it and try again",
-      // });
-    }
-  };
-
+  
   return (
     <div className="w-[340px] bg-white rounded-r-lg outline outline-zinc-300 relative">
       <div className="p-10 fixed top-0 left-0 h-[80%]">
@@ -92,12 +64,13 @@ export function Sidebar({ url }: SideBarProps) {
               >
                 <Link href={"/driver/register"}>Become a Driver</Link>
               </Button>
+
               <Button
                 variant={"ghost"}
-                onClick={() => logOutOnSubmit()}
                 className="mt-2 ring-1 ring-zinc-100"
+                asChild
               >
-                Sign Out
+                <LogoutLink>Sign Out</LogoutLink>
               </Button>
             </div>
           </div>

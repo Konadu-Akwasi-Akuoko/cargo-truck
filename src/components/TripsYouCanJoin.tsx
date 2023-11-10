@@ -43,150 +43,90 @@ export function TripsYouCanJoin() {
           </p>
         </div>
         {/* Item */}
-        <div
-          className={cn(
-            buttonVariants({ variant: "outline" }) +
-              "flex flex-row justify-between items-center w-full transition hover:shadow-md border-none my-2 cursor-pointer font-normal"
-          )}
-        >
-          <div className="w-[30%] flex flex-row gap-8">
-            <p>Kumasi</p>
-            <MoveRight className="text-blue-500" />
-            <p>Accra</p>
+        <Link href={"/trips/1234"}>
+          <div
+            className={cn(
+              buttonVariants({ variant: "outline" }) +
+                "flex flex-row justify-between items-center w-full transition hover:shadow-md border-none my-2 cursor-pointer font-normal"
+            )}
+          >
+            <div className="w-[30%] flex flex-row gap-8">
+              <p>Kumasi</p>
+              <MoveRight className="text-blue-500" />
+              <p>Accra</p>
+            </div>
+            <div className="w-[17.5%]">
+              <p>18 people joining</p>
+            </div>
+            <div className="w-[17.5%]">
+              <p>2 days to departure</p>
+            </div>
+            <div className="w-[17.5%]">
+              <p>
+                13m<sup>3</sup> space left
+              </p>
+            </div>
+            <div className="w-[17.5%]">
+              <p>GH&#8373;80.00 base price</p>
+            </div>
           </div>
+        </Link>
+        <Link href={"/trips/1234"}>
+          <div
+            className={cn(
+              buttonVariants({ variant: "outline" }) +
+                "flex flex-row justify-between items-center w-full transition hover:shadow-md border-none my-2 cursor-pointer font-normal"
+            )}
+          >
+            <div className="w-[30%] flex flex-row gap-8">
+              <p>Kumasi</p>
+              <MoveRight className="text-blue-500" />
+              <p>Accra</p>
+            </div>
+            <div className="w-[17.5%]">
+              <p>18 people joining</p>
+            </div>
+            <div className="w-[17.5%]">
+              <p>2 days to departure</p>
+            </div>
+            <div className="w-[17.5%]">
+              <p>
+                13m<sup>3</sup> space left
+              </p>
+            </div>
+            <div className="w-[17.5%]">
+              <p>GH&#8373;80.00 base price</p>
+            </div>
+          </div>
+        </Link> <Link href={"/trips/1234"}>
+          <div
+            className={cn(
+              buttonVariants({ variant: "outline" }) +
+                "flex flex-row justify-between items-center w-full transition hover:shadow-md border-none my-2 cursor-pointer font-normal"
+            )}
+          >
+            <div className="w-[30%] flex flex-row gap-8">
+              <p>Kumasi</p>
+              <MoveRight className="text-blue-500" />
+              <p>Accra</p>
+            </div>
+            <div className="w-[17.5%]">
+              <p>18 people joining</p>
+            </div>
+            <div className="w-[17.5%]">
+              <p>2 days to departure</p>
+            </div>
+            <div className="w-[17.5%]">
+              <p>
+                13m<sup>3</sup> space left
+              </p>
+            </div>
+            <div className="w-[17.5%]">
+              <p>GH&#8373;80.00 base price</p>
+            </div>
+          </div>
+        </Link>
 
-          <div className="w-[17.5%]">
-            <p>18 people joining</p>
-          </div>
-          <div className="w-[17.5%]">
-            <p>2 days to departure</p>
-          </div>
-          <div className="w-[17.5%]">
-            <p>
-              13m<sup>3</sup> space left
-            </p>
-          </div>
-
-          <div className="w-[17.5%]">
-            <p>GH&#8373;80.00 base price</p>
-          </div>
-        </div>
-        {/* Item */}
-        <div
-          className={cn(
-            buttonVariants({ variant: "outline" }) +
-              "flex flex-row justify-between items-center w-full transition hover:shadow-md border-none my-2 cursor-pointer font-normal"
-          )}
-        >
-          <div className="w-[30%] flex flex-row gap-8">
-            <p>Kumasi</p>
-            <MoveRight className="text-blue-500" />
-            <p>Accra</p>
-          </div>
-
-          <div className="w-[17.5%]">
-            <p>18 people joining</p>
-          </div>
-          <div className="w-[17.5%]">
-            <p>2 days to departure</p>
-          </div>
-          <div className="w-[17.5%]">
-            <p>
-              13m<sup>3</sup> space left
-            </p>
-          </div>
-
-          <div className="w-[17.5%]">
-            <p>GH&#8373;80.00 base price</p>
-          </div>
-        </div>
-        {/* Item */}
-        <div
-          className={cn(
-            buttonVariants({ variant: "outline" }) +
-              "flex flex-row justify-between items-center w-full transition hover:shadow-md border-none my-2 cursor-pointer font-normal"
-          )}
-        >
-          <div className="w-[30%] flex flex-row gap-8">
-            <p>Kumasi</p>
-            <MoveRight className="text-blue-500" />
-            <p>Accra</p>
-          </div>
-
-          <div className="w-[17.5%]">
-            <p>18 people joining</p>
-          </div>
-          <div className="w-[17.5%]">
-            <p>2 days to departure</p>
-          </div>
-          <div className="w-[17.5%]">
-            <p>
-              13m<sup>3</sup> space left
-            </p>
-          </div>
-
-          <div className="w-[17.5%]">
-            <p>GH&#8373;80.00 base price</p>
-          </div>
-        </div>
-        {/* Item */}
-        <div
-          className={cn(
-            buttonVariants({ variant: "outline" }) +
-              "flex flex-row justify-between items-center w-full transition hover:shadow-md border-none my-2 cursor-pointer font-normal"
-          )}
-        >
-          <div className="w-[30%] flex flex-row gap-8">
-            <p>Kumasi</p>
-            <MoveRight className="text-blue-500" />
-            <p>Accra</p>
-          </div>
-
-          <div className="w-[17.5%]">
-            <p>18 people joining</p>
-          </div>
-          <div className="w-[17.5%]">
-            <p>2 days to departure</p>
-          </div>
-          <div className="w-[17.5%]">
-            <p>
-              13m<sup>3</sup> space left
-            </p>
-          </div>
-
-          <div className="w-[17.5%]">
-            <p>GH&#8373;80.00 base price</p>
-          </div>
-        </div>
-        {/* Item */}
-        <div
-          className={cn(
-            buttonVariants({ variant: "outline" }) +
-              "flex flex-row justify-between items-center w-full transition hover:shadow-md border-none my-2 cursor-pointer font-normal"
-          )}
-        >
-          <div className="w-[30%] flex flex-row gap-8">
-            <p>Kumasi</p>
-            <MoveRight className="text-blue-500" />
-            <p>Accra</p>
-          </div>
-
-          <div className="w-[17.5%]">
-            <p>18 people joining</p>
-          </div>
-          <div className="w-[17.5%]">
-            <p>2 days to departure</p>
-          </div>
-          <div className="w-[17.5%]">
-            <p>
-              13m<sup>3</sup> space left
-            </p>
-          </div>
-
-          <div className="w-[17.5%]">
-            <p>GH&#8373;80.00 base price</p>
-          </div>
-        </div>
         {/*  */}
       </div>
     </>

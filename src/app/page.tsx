@@ -1,25 +1,17 @@
 "use client";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { selectIsAuthenticated } from "@/store/userSlice";
+import { Button } from "@/components/ui/button";
 import {
-  RegisterLink,
   LoginLink,
+  RegisterLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
 
 export default function Home() {
   const router = useRouter();
-  // router.push("/dashboard");
+  router.push("/dashboard");
 
-  // const isUserAuthenticated = useSelector(selectIsAuthenticated);
-  // if (isUserAuthenticated) {
-  //   router.push("/dashboard");
-  // } else {
-  //   router.push("/login");
-  // }
+  
   return (
     <main className="">
       <MaxWidthWrapper className="flex flex-col gap-10 mt-10">
