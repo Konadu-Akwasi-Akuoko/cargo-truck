@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { rootApi } from "@/api";
 import userPic from "@/assets/userPic.png";
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
@@ -6,6 +6,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { Sidebar } from "@/components/Sidebar";
 import { TripsYouCanJoin } from "@/components/TripsYouCanJoin";
 import { Button } from "@/components/ui/button";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { format } from "date-fns";
 import {
   Bus,
@@ -14,37 +15,42 @@ import {
   MapPinned,
   MoveRight,
   PhoneCall,
-  UserCircle
+  UserCircle,
 } from "lucide-react";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
+  const router = useRouter();
+  const { accessToken } = useKindeBrowserClient();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchUserData = await fetch(`${rootApi}/user/`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+  if (accessToken) {
+    router.push("/");
+  }
 
-        const result = await fetchUserData.json();
-        console.log(result);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const fetchUserData = await fetch(`${rootApi}/user/`, {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       });
 
-        // Handle the fetched data here
-      } catch (error) {
-        console.error(error);
-        // Handle the error here
-      }
-    };
+  //       const result = await fetchUserData.json();
+  //       console.log(result);
 
-    fetchData();
-  }, []);
-  
-  
+  //       // Handle the fetched data here
+  //     } catch (error) {
+  //       console.error(error);
+  //       // Handle the error here
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
   const date = new Date();
   const formattedDate = format(date, "MMMM d, yyyy");
   return (

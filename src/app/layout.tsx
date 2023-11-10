@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
+import StoreProvider from "@/components/StoreProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,9 @@ export default function RootLayout({
           "grainy min-h-screen font-sans antialiased " + inter.className
         )}
       >
-        {children} <Toaster />
+        <StoreProvider>
+          {children} <Toaster />
+        </StoreProvider>
       </body>
     </html>
   );

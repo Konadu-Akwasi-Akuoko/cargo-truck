@@ -44,7 +44,7 @@ export function Sidebar({ url }: SideBarProps) {
     <div className="w-[340px] bg-white rounded-r-lg outline outline-zinc-300 relative">
       <div className="p-10 fixed top-0 left-0 h-[80%]">
         <div className="flex flex-row w-full pb-8 ">
-          <h2 className="text-2xl font-medium">CargoTruck</h2>
+          <h2 className="text-2xl font-medium">CargoLink</h2>
           <Truck className="w-8 h-8 text-primary" />
         </div>
         <div className=" w-full mx-auto border-b border-border" />

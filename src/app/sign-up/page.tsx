@@ -103,7 +103,7 @@ export default function SignUp() {
 
       <div>
         <div className="flex flex-row mb-14 w-fit mx-auto mt-20">
-          <h2 className="text-2xl font-medium">CargoTruck</h2>
+          <h2 className="text-2xl font-medium">CargoLink</h2>
           <Truck className="w-8 h-8 text-primary" />
         </div>
 
@@ -196,7 +196,7 @@ export default function SignUp() {
 
         <div className="flex flex-row mt-6 w-fit mx-auto mb-10">
           <p className="text-xs">
-            Have an account on CargoTruck?{" "}
+            Have an account on CargoLink?{" "}
             <span>
               <Link href={"/sign-in"} className="text-primary hover:underline">
                 Sign In

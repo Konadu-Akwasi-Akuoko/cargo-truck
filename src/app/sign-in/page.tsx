@@ -83,7 +83,7 @@ export default function SignIn() {
 
       <div>
         <div className="flex flex-row mb-14 w-fit mx-auto">
-          <h2 className="text-2xl font-medium">CargoTruck</h2>
+          <h2 className="text-2xl font-medium">CargoLink</h2>
           <Truck className="w-8 h-8 text-primary" />
         </div>
 
@@ -140,7 +140,7 @@ export default function SignIn() {
 
         <div className="flex flex-row mt-6 w-fit mx-auto">
           <p className="text-xs">
-            New to CargoTruck?{" "}
+            New to CargoLink?{" "}
             <span>
               <Link href={"/sign-up"} className="text-primary hover:underline">
                 Sign Up
