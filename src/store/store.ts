@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
-import bookReducer from "./bookingForm";
+import bookingReducer from "./bookingForm";
 
 export const store = configureStore({
   reducer: {
     userReducer,
-    bookReducer,
+    bookReducer: bookingReducer,
   },
 });
 

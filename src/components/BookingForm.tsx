@@ -1,13 +1,10 @@
 "use client";
-import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
-import { Sidebar } from "@/components/Sidebar";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, ChevronDown, PackageCheck } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -25,32 +22,40 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
-import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { calculateMovingRegionCost } from "@/lib/calculateRegionPrice";
+import { store } from "@/store/store";
+import {
+  selectBookingRegionPrice,
+  setShippingPrice,
+} from "@/store/bookingForm";
+import { useSelector } from "react-redux";
 
 const regions = [
-  { label: "Ahafo", value: "Ahafo" },
-  { label: "Ashanti", value: "Ashanti" },
-  { label: "Bono East", value: "Bono East" },
-  { label: "Brong Ahafo", value: "Brong Ahafo" },
-  { label: "Central", value: "Central" },
-  { label: "Eastern", value: "Eastern" },
-  { label: "Greater Accra", value: "Greater Accra" },
-  { label: "North East", value: "North East" },
-  { label: "Northern", value: "Nothern" },
-  { label: "Oti", value: "Oti" },
-  { label: "Savannah", value: "Savannah" },
-  { label: "Upper East", value: "Upper East" },
-  { label: "Upper West", value: "Upper West" },
-  { label: "Western", value: "Western" },
-  { label: "Western North", value: "Western North" },
-  { label: "Volta", value: "Volta" },
+  { label: "Ahafo", value: "ahafo" },
+  { label: "Ashanti", value: "ashanti" },
+  { label: "Bono East", value: "bonoEast" },
+  { label: "Brong Ahafo", value: "brongAhafo" },
+  { label: "Central", value: "central" },
+  { label: "Eastern", value: "eastern" },
+  { label: "Greater Accra", value: "greaterAccra" },
+  { label: "North East", value: "northEast" },
+  { label: "Northern", value: "northern" },
+  { label: "Oti", value: "oti" },
+  { label: "Savannah", value: "savannah" },
+  { label: "Upper East", value: "upperEast" },
+  { label: "Upper West", value: "upperWest" },
+  { label: "Western", value: "western" },
+  { label: "Western North", value: "westernNorth" },
+  { label: "Volta", value: "volta" },
 ];
 
 const sizes = [
@@ -98,6 +103,8 @@ export function BookingForm() {
   const [showSelectCategory, setShowSelectCategory] = useState(true);
   const [showSelectSize, setShowSelectSize] = useState(false);
 
+  const regionPrice = useSelector(selectBookingRegionPrice);
+
   const bookATripForm = useForm<z.infer<typeof bookingFormSchema>>({
     resolver: zodResolver(bookingFormSchema),
     defaultValues: {
@@ -110,9 +117,9 @@ export function BookingForm() {
     },
   });
 
-  const bookATripFormOnSubmit = (values: z.infer<typeof bookingFormSchema>) => {
-    
-  };
+  const bookATripFormOnSubmit = (
+    values: z.infer<typeof bookingFormSchema>
+  ) => {};
 
   return (
     <div>
@@ -239,9 +246,7 @@ export function BookingForm() {
                               <PopoverContent className="w-full p-0">
                                 <Command>
                                   <CommandInput placeholder="Search region..." />
-                                  <CommandEmpty>
-                                    No language found.
-                                  </CommandEmpty>
+                                  <CommandEmpty>No region found.</CommandEmpty>
                                   <CommandGroup>
                                     {regions.map((region) => (
                                       <CommandItem
@@ -252,6 +257,29 @@ export function BookingForm() {
                                             "shippingFrom",
                                             region.value
                                           );
+                                          const shippingFromValue =
+                                            bookATripForm.getValues(
+                                              "shippingFrom"
+                                            );
+
+                                          const shippingToValue =
+                                            bookATripForm.getValues(
+                                              "shippingTo"
+                                            );
+
+                                          if (
+                                            shippingFromValue &&
+                                            shippingToValue
+                                          ) {
+                                            store.dispatch(
+                                              setShippingPrice(
+                                                calculateMovingRegionCost(
+                                                  shippingFromValue,
+                                                  shippingToValue
+                                                )
+                                              )
+                                            );
+                                          }
                                           setIsShippingFromOpen(false);
                                         }}
                                       >
@@ -311,19 +339,39 @@ export function BookingForm() {
                               <PopoverContent className="w-full p-0">
                                 <Command>
                                   <CommandInput placeholder="Search region..." />
-                                  <CommandEmpty>
-                                    No language found.
-                                  </CommandEmpty>
+                                  <CommandEmpty>No region found.</CommandEmpty>
                                   <CommandGroup>
                                     {regions.map((region) => (
                                       <CommandItem
                                         value={region.label}
                                         key={region.value}
-                                        onSelect={() => {
+                                        onSelect={async () => {
                                           bookATripForm.setValue(
                                             "shippingTo",
                                             region.value
                                           );
+                                          const shippingToValue =
+                                            bookATripForm.getValues(
+                                              "shippingTo"
+                                            );
+                                          const shippingFromValue =
+                                            bookATripForm.getValues(
+                                              "shippingFrom"
+                                            );
+
+                                          if (
+                                            shippingFromValue &&
+                                            shippingToValue
+                                          ) {
+                                            store.dispatch(
+                                              setShippingPrice(
+                                                calculateMovingRegionCost(
+                                                  shippingFromValue,
+                                                  shippingToValue
+                                                )
+                                              )
+                                            );
+                                          }
                                           setIsShippingToOpen(false);
                                         }}
                                       >
@@ -366,7 +414,18 @@ export function BookingForm() {
                         <FormControl>
                           <Switch
                             checked={showSelectCategory}
-                            onCheckedChange={setShowSelectCategory}
+                            onCheckedChange={() => {
+                              setShowSelectCategory((prev) => {
+                                return !prev;
+                              });
+                              if (!showSelectCategory) {
+                                bookATripForm.setValue("sizeCategory", "");
+                              } else {
+                                bookATripForm.setValue("sizeHeight", 0);
+                                bookATripForm.setValue("sizeLength", 0);
+                                bookATripForm.setValue("sizeWidth", 0);
+                              }
+                            }}
                           />
                         </FormControl>
                       </div>
@@ -529,10 +588,10 @@ export function BookingForm() {
 
         {/* Price estimator */}
 
-        <div className="col-span-1 rounded-md overflow-hidden ring-1 ring-zinc-200 shadow-md h-fit">
+        <div className="col-span-1 rounded-md overflow-hidden ring-1 ring-zinc-200 shadow-md h-fit sticky top-0">
           <div className="w-full bg-primary h-36 flex flex-col justify-center items-center text-white gap-y-2">
             <p className="w-fit text-xl font-medium">Estimated Total Cost</p>
-            <p className="w-fit font-medium">GH&#8373;80.00</p>
+            <p className="w-fit font-medium">GH&#8373;{regionPrice}</p>
           </div>
           <div className="bg-white h-64 flex flex-col justify-center items-center gap-y-4 p-4">
             <p className=" text-lg font-medium">
