@@ -33,11 +33,9 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { calculateMovingRegionCost } from "@/lib/calculateRegionPrice";
 import { store } from "@/store/store";
-import {
-  selectBookingRegionPrice,
-  setShippingPrice,
-} from "@/store/bookingForm";
+import { selectShippingPrice, setShippingPrice } from "@/store/bookingForm";
 import { useSelector } from "react-redux";
+import { calculateSizePrice } from "@/lib/calculateSizePrice";
 
 const regions = [
   { label: "Ahafo", value: "ahafo" },
@@ -82,9 +80,15 @@ const sizes = [
 ];
 
 const bookingFormSchema = z.object({
-  fullName: z.string(),
-  phoneNumber: z.string(),
-  ghanaCardNumber: z.string(),
+  fullName: z.string().refine((value) => value !== "", {
+    message: "Please enter your full name",
+  }),
+  phoneNumber: z.string().refine((value) => value !== "", {
+    message: "Please enter your phone number",
+  }),
+  ghanaCardNumber: z.string().refine((value) => value !== "", {
+    message: "Please enter your Ghana card number",
+  }),
   shippingFrom: z.string({
     required_error: "Please select where you are shipping from",
   }),
@@ -103,7 +107,7 @@ export function BookingForm() {
   const [showSelectCategory, setShowSelectCategory] = useState(true);
   const [showSelectSize, setShowSelectSize] = useState(false);
 
-  const regionPrice = useSelector(selectBookingRegionPrice);
+  const shippingPrice = useSelector(selectShippingPrice);
 
   const bookATripForm = useForm<z.infer<typeof bookingFormSchema>>({
     resolver: zodResolver(bookingFormSchema),
@@ -117,9 +121,9 @@ export function BookingForm() {
     },
   });
 
-  const bookATripFormOnSubmit = (
-    values: z.infer<typeof bookingFormSchema>
-  ) => {};
+  const bookATripFormOnSubmit = (values: z.infer<typeof bookingFormSchema>) => {
+    console.log(values);
+  };
 
   return (
     <div>
@@ -153,6 +157,7 @@ export function BookingForm() {
                     <FormField
                       control={bookATripForm.control}
                       name="fullName"
+                      rules={{ required: true }}
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Full name</FormLabel>
@@ -261,25 +266,69 @@ export function BookingForm() {
                                             bookATripForm.getValues(
                                               "shippingFrom"
                                             );
-
                                           const shippingToValue =
                                             bookATripForm.getValues(
                                               "shippingTo"
                                             );
 
+                                          const size =
+                                            bookATripForm.getValues(
+                                              "sizeCategory"
+                                            );
+                                          const sizeWidth =
+                                            bookATripForm.getValues(
+                                              "sizeWidth"
+                                            );
+                                          const sizeHeight =
+                                            bookATripForm.getValues(
+                                              "sizeHeight"
+                                            );
+                                          const sizeLength =
+                                            bookATripForm.getValues(
+                                              "sizeLength"
+                                            );
+
                                           if (
                                             shippingFromValue &&
-                                            shippingToValue
+                                            shippingToValue &&
+                                            (size ||
+                                              (sizeWidth &&
+                                                sizeHeight &&
+                                                sizeLength))
                                           ) {
-                                            store.dispatch(
-                                              setShippingPrice(
-                                                calculateMovingRegionCost(
-                                                  shippingFromValue,
-                                                  shippingToValue
+                                            if (size) {
+                                              store.dispatch(
+                                                setShippingPrice(
+                                                  calculateMovingRegionCost(
+                                                    shippingFromValue,
+                                                    shippingToValue
+                                                  ) +
+                                                    calculateSizePrice({
+                                                      category: size,
+                                                    })
                                                 )
-                                              )
-                                            );
+                                              );
+                                            } else if (
+                                              sizeHeight &&
+                                              sizeWidth &&
+                                              sizeLength
+                                            ) {
+                                              store.dispatch(
+                                                setShippingPrice(
+                                                  calculateMovingRegionCost(
+                                                    shippingFromValue,
+                                                    shippingToValue
+                                                  ) +
+                                                    calculateSizePrice({
+                                                      width: sizeWidth,
+                                                      height: sizeHeight,
+                                                      length: sizeLength,
+                                                    })
+                                                )
+                                              );
+                                            }
                                           }
+
                                           setIsShippingFromOpen(false);
                                         }}
                                       >
@@ -359,18 +408,62 @@ export function BookingForm() {
                                               "shippingFrom"
                                             );
 
+                                          const size =
+                                            bookATripForm.getValues(
+                                              "sizeCategory"
+                                            );
+                                          const sizeWidth =
+                                            bookATripForm.getValues(
+                                              "sizeWidth"
+                                            );
+                                          const sizeHeight =
+                                            bookATripForm.getValues(
+                                              "sizeHeight"
+                                            );
+                                          const sizeLength =
+                                            bookATripForm.getValues(
+                                              "sizeLength"
+                                            );
+
                                           if (
                                             shippingFromValue &&
-                                            shippingToValue
+                                            shippingToValue &&
+                                            (size ||
+                                              (sizeWidth &&
+                                                sizeHeight &&
+                                                sizeLength))
                                           ) {
-                                            store.dispatch(
-                                              setShippingPrice(
-                                                calculateMovingRegionCost(
-                                                  shippingFromValue,
-                                                  shippingToValue
+                                            if (size) {
+                                              store.dispatch(
+                                                setShippingPrice(
+                                                  calculateMovingRegionCost(
+                                                    shippingFromValue,
+                                                    shippingToValue
+                                                  ) +
+                                                    calculateSizePrice({
+                                                      category: size,
+                                                    })
                                                 )
-                                              )
-                                            );
+                                              );
+                                            } else if (
+                                              sizeHeight &&
+                                              sizeWidth &&
+                                              sizeLength
+                                            ) {
+                                              store.dispatch(
+                                                setShippingPrice(
+                                                  calculateMovingRegionCost(
+                                                    shippingFromValue,
+                                                    shippingToValue
+                                                  ) +
+                                                    calculateSizePrice({
+                                                      width: sizeWidth,
+                                                      height: sizeHeight,
+                                                      length: sizeLength,
+                                                    })
+                                                )
+                                              );
+                                            }
                                           }
                                           setIsShippingToOpen(false);
                                         }}
@@ -476,6 +569,42 @@ export function BookingForm() {
                                               "sizeCategory",
                                               size.value
                                             );
+
+                                            bookATripForm.setValue(
+                                              "sizeWidth",
+                                              0
+                                            );
+
+                                            bookATripForm.setValue(
+                                              "sizeHeight",
+                                              0
+                                            );
+
+                                            bookATripForm.setValue(
+                                              "sizeLength",
+                                              0
+                                            );
+
+                                            const shippingToValue =
+                                              bookATripForm.getValues(
+                                                "shippingTo"
+                                              );
+                                            const shippingFromValue =
+                                              bookATripForm.getValues(
+                                                "shippingFrom"
+                                              );
+
+                                            store.dispatch(
+                                              setShippingPrice(
+                                                calculateMovingRegionCost(
+                                                  shippingFromValue,
+                                                  shippingToValue
+                                                ) +
+                                                  calculateSizePrice({
+                                                    category: size.value,
+                                                  })
+                                              )
+                                            );
                                             setShowSelectSize(false);
                                           }}
                                         >
@@ -515,9 +644,41 @@ export function BookingForm() {
                                     placeholder="height of package"
                                     {...field}
                                     type="number"
-                                    onChange={(e) =>
-                                      field.onChange(Number(e.target.value))
-                                    }
+                                    onChange={(e) => {
+                                      field.onChange(Number(e.target.value));
+
+                                      const sizeHeight =
+                                        bookATripForm.getValues("sizeHeight");
+                                      const sizeWidth =
+                                        bookATripForm.getValues("sizeWidth");
+                                      const sizeLength =
+                                        bookATripForm.getValues("sizeLength");
+
+                                      const shippingToValue =
+                                        bookATripForm.getValues("shippingTo");
+                                      const shippingFromValue =
+                                        bookATripForm.getValues("shippingFrom");
+
+                                      if (
+                                        sizeHeight &&
+                                        sizeWidth &&
+                                        sizeLength
+                                      ) {
+                                        store.dispatch(
+                                          setShippingPrice(
+                                            calculateMovingRegionCost(
+                                              shippingFromValue,
+                                              shippingToValue
+                                            ) +
+                                              calculateSizePrice({
+                                                width: sizeWidth,
+                                                height: sizeHeight,
+                                                length: sizeLength,
+                                              })
+                                          )
+                                        );
+                                      }
+                                    }}
                                   />
                                 </FormControl>
                                 <FormDescription>
@@ -539,9 +700,41 @@ export function BookingForm() {
                                     placeholder="width of package"
                                     {...field}
                                     type="number"
-                                    onChange={(e) =>
-                                      field.onChange(Number(e.target.value))
-                                    }
+                                    onChange={(e) => {
+                                      field.onChange(Number(e.target.value));
+
+                                      const sizeHeight =
+                                        bookATripForm.getValues("sizeHeight");
+                                      const sizeWidth =
+                                        bookATripForm.getValues("sizeWidth");
+                                      const sizeLength =
+                                        bookATripForm.getValues("sizeLength");
+
+                                      const shippingToValue =
+                                        bookATripForm.getValues("shippingTo");
+                                      const shippingFromValue =
+                                        bookATripForm.getValues("shippingFrom");
+
+                                      if (
+                                        sizeHeight &&
+                                        sizeWidth &&
+                                        sizeLength
+                                      ) {
+                                        store.dispatch(
+                                          setShippingPrice(
+                                            calculateMovingRegionCost(
+                                              shippingFromValue,
+                                              shippingToValue
+                                            ) +
+                                              calculateSizePrice({
+                                                width: sizeWidth,
+                                                height: sizeHeight,
+                                                length: sizeLength,
+                                              })
+                                          )
+                                        );
+                                      }
+                                    }}
                                   />
                                 </FormControl>
                                 <FormDescription>
@@ -563,9 +756,41 @@ export function BookingForm() {
                                     placeholder="length of package"
                                     {...field}
                                     type="number"
-                                    onChange={(e) =>
-                                      field.onChange(Number(e.target.value))
-                                    }
+                                    onChange={(e) => {
+                                      field.onChange(Number(e.target.value));
+
+                                      const sizeHeight =
+                                        bookATripForm.getValues("sizeHeight");
+                                      const sizeWidth =
+                                        bookATripForm.getValues("sizeWidth");
+                                      const sizeLength =
+                                        bookATripForm.getValues("sizeLength");
+
+                                      const shippingToValue =
+                                        bookATripForm.getValues("shippingTo");
+                                      const shippingFromValue =
+                                        bookATripForm.getValues("shippingFrom");
+
+                                      if (
+                                        sizeHeight &&
+                                        sizeWidth &&
+                                        sizeLength
+                                      ) {
+                                        store.dispatch(
+                                          setShippingPrice(
+                                            calculateMovingRegionCost(
+                                              shippingFromValue,
+                                              shippingToValue
+                                            ) +
+                                              calculateSizePrice({
+                                                width: sizeWidth,
+                                                height: sizeHeight,
+                                                length: sizeLength,
+                                              })
+                                          )
+                                        );
+                                      }
+                                    }}
                                   />
                                 </FormControl>
                                 <FormDescription>
@@ -591,7 +816,7 @@ export function BookingForm() {
         <div className="col-span-1 rounded-md overflow-hidden ring-1 ring-zinc-200 shadow-md h-fit sticky top-0">
           <div className="w-full bg-primary h-36 flex flex-col justify-center items-center text-white gap-y-2">
             <p className="w-fit text-xl font-medium">Estimated Total Cost</p>
-            <p className="w-fit font-medium">GH&#8373;{regionPrice}</p>
+            <p className="w-fit font-medium">GH&#8373;{shippingPrice}</p>
           </div>
           <div className="bg-white h-64 flex flex-col justify-center items-center gap-y-4 p-4">
             <p className=" text-lg font-medium">

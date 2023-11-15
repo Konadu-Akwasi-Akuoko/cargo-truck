@@ -44,4 +44,4 @@ export default bookingSlice.reducer;
 
 export const selectBookingForm = (state: RootState) => state.bookReducer;
 
-export const selectBookingRegionPrice = (state: RootState) =>  state.bookReducer.shippingPrice
+export const selectShippingPrice = (state: RootState) =>  state.bookReducer.shippingPrice
